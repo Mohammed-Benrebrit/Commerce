@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{% block title %}Auctions{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="parent">
+        <div class="nav-bar1">
+            <h3>{{ user.username }}</h3>
+            <div>
+                {% if user.is_authenticated %}
+
+                {% else %}
+                Not signed in.
+                {% endif %}
+            </div>
+        </div>
+        <div class="nav-bar2">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'creat' %}">Creat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                {% endif %}
+            </ul>
+
+        </div>
+
+
+        <div id="ct">
+            <h3>Auctions</h3>
+        </div>
+        <div id="ul">
+
+            <div id="link"><a href="{% url 'my_listing' %}">My Listings</a></div>
+            <div id="link"><a href="{% url 'watchlist' %}">watchlist</a></div>
+            <div id="link"><a href="{% url 'salles' %}">Activities</a></div>
+            <form action="{% url 'categories' %}" method="POST">
+                {% csrf_token %}
+                <select class="form-select" name="ctg" id="ctgy" onchange="this.form.submit()">
+                    <option style="display: none;" value="">categories</option>
+                    <option value="cars">cars</option>
+                    <option value="real estate">real estate</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Toys">Toys</option>
+                    <option value="Fashion">Fashion</option>
+                </select>
+
+            </form>
+        </div>
+
+        {% block body %}
+        {% endblock %}
+
+    </div>
+
+</body>
+
+</html>

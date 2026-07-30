@@ -1,0 +1,50 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="box-parent">
+    <div class="b-parent">
+        <div class="title">
+            <h4>Activities</h4>
+        </div>
+        <div class="box-p">
+            {% for d in ds %}
+            <div class="box">
+                <img id="img" src="{{d.img}}" alt="image">
+                <div id="box-info">
+                    <div class="box-in">
+                        <div class="up">
+                            <div class="t">
+                                <h4>{{d.t}}(sold)</h4>
+                                <p id="p"><b> Start-bid</b>: {{d.start_bid}}</p>
+                                <p id="p"><b>current-bid</b>: {{d.current}}</p>
+                                <p id="p"><b>categorie</b>: {{d.ctg}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% for d in db %}
+            <div class="box">
+                <img id="img" src="{{d.img}}" alt="image">
+                <div id="box-info">
+                    <div class="box-in">
+                        <div class="up">
+                            <div class="t">
+                                <h4>{{d.t}}(bught)</h4>
+                                <p id="p"><b> Start-bid</b>: {{d.start_bid}}</p>
+                                <p id="p"><b>current-bid</b>: {{d.current}}</p>
+                                <p id="p"><b>categorie</b>: {{d.ctg}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="li-parent">
+    <div class="li-side1">
+        {% for d in data %}
+        <div class="li-img">
+            <img id="li-img" src="{{d.img}}" alt="pic">
+        </div>
+
+        {% endfor %}
+    </div>
+    <div class="li-side2">
+        {% for d in data %}
+        <div class="down">
+            {% if d.user == request.user %}
+            <div class="favv">
+                <form action="{% url 'my_listing' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="ls" value="{{d.id}}">
+                    <input type="hidden" name="tit" value="{{d.t}}">
+                    <input type="hidden" name="dis" value="{{d.description}}">
+                    <input type="hidden" name="im" value="{{d.img}}">
+                    <input type="hidden" name="buyer" value="{{d.current}}">
+                    <input type="hidden" name="us" value="{{d.user}}">
+                    <input id="input-submit" name="sell" type="submit" value="sell">
+                </form>
+            </div>
+
+            <div class="favv">
+                <form action="{% url 'my_listing' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="d" value="{{d.id}}">
+                    <input id="input-submit" name="delete" type="submit" value="delete">
+                </form>
+            </div>
+            {% endif %}
+            <div class="favv">
+                <form action="{% url 'index' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{d.id}}">
+                    <input type="hidden" name="boolean" value="{{d.fav}}">
+                    <input id="input-submit" type="submit" value="Save">
+                </form>
+            </div>
+        </div>
+        <div class="li-info1">
+            <div class="info-1">
+
+                <h3>{{d.t}}</h3>
+                <p>{{d.description}}</p>
+            </div>
+        </div>
+        <div class="li-info">
+            <div class="info-2">
+                <div class="s-bid">
+                    <div class="c-bid">
+                        <h6>Start-bid</h6>
+                        <h6>{{d.start_bid}}$</h6>
+                    </div>
+                </div>
+                <div class="s-bid">
+                    <div class="c-bid">
+                        <h6>Current-price</h6>
+                        <h6>{{d.current}}$</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="a-bid">
+                <form id="a-bid" action="{% url 'listing' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="hide" value="{{d.current}}">
+                    <input type="hidden" name="foreign" value="{{d.id}}">
+                    <input type="number" name="new" placeholder="add bid" id="a-bid">
+                    <input id="bt" class="btn btn-primary" type="submit" name="bid-v" value="submit">
+                </form>
+                <div class="error">
+                    <p style="color: red;">{{error}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="li-info3">
+            <div class="info-3">
+                {% for i in dc %}
+                <div class="cmnt-parent">
+                    <div class="cmnt">
+                        <p id="uc"><b>@{{i.usercmnt}}</b></p>
+                        <p id="cc">{{i.cmnt}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <form action="{% url 'listing' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="cf" value="{{d.id}}">
+                <input type="hidden" name="ck" value=0>
+                <input type="text" name="cmnt" placeholder="add a comment" id="a-bid">
+                <input id="bt" class="btn btn-info" type="submit" name="comment-v" value="submit">
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

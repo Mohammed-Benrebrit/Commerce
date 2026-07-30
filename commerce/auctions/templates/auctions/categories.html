@@ -1,0 +1,52 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="box-parent">
+    <div class="b-parent">
+        <div class="title">
+            <h4>{{ctg}}</h4>
+        </div>
+        <div class="box-p">
+            {% for d in dt %}
+            <div class="box">
+                <img id="img" src="{{d.img}}" alt="image">
+                <div id="box-info">
+                    <div class="box-in">
+                        <div class="up">
+                            <div class="t">
+                                <h4>{{d.t}}</h4>
+                                <p id="p"><b> Start-bid</b>: {{d.start_bid}}</p>
+                                <p id="p"><b>current-bid</b>: {{d.current}}</p>
+                                <p id="p"><b>categorie</b>: {{d.ctg}}</p>
+                            </div>
+                        </div>
+                        <div class="downn">
+                            <div class="favv">
+                                <form action="{% url 'index' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{d.id}}">
+                                    <input type="hidden" name="boolean" value="{{d.fav}}">
+                                    <input id="input-submit" type="submit" value="Save">
+                                </form>
+                            </div>
+
+                            <div class="favv">
+                                <form action="{% url 'listing' %}" method="GET">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{d.id}}">
+                                    <input id="input-submit" type="submit" value="details">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
